@@ -36,6 +36,11 @@ public class TodoController {
         todoService.delete(id);
     }
 
+    @GetMapping("/{id}")
+    public Todo getTodoItemById(@PathVariable Integer id) {
+        return todoService.findById(id);
+    }
+
 
 
 }
