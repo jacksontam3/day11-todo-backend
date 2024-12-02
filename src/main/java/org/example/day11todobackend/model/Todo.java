@@ -1,11 +1,9 @@
 package org.example.day11todobackend.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
+@Table(name = "todo")
 public class Todo {
     @Id
 

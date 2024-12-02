@@ -3,14 +3,10 @@ package org.example.day11todobackend.controller;
 
 import org.example.day11todobackend.model.Todo;
 import org.example.day11todobackend.service.TodoService;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin
 @RestController
 @RequestMapping("/TodoItem")
 public class TodoController {
@@ -24,4 +20,10 @@ public class TodoController {
     public List<Todo> getTodoList() {
         return todoService.findAll();
     }
+
+    @PostMapping
+    public Todo addTodoItem(@RequestBody Todo todo) {
+        return todoService.addTodoItem(todo);
+    }
+
 }
