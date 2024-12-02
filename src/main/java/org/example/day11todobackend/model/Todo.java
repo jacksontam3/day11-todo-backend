@@ -24,6 +24,15 @@ public class Todo {
 
     }
 
+    public void update(Todo todo) {
+        if (todo.getText() != null) {
+            this.setText(todo.getText());
+        }
+        if (todo.isDone() != this.isDone()) {
+            this.setDone(todo.isDone());
+        }
+    }
+
     public Integer getId() {
         return id;
     }
