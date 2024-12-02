@@ -74,6 +74,25 @@ class TodoServiceTest {
         assertEquals(expected_todo, createdTodo);
     }
 
+    @Test
+    void should_return_update_todo_when_update_todo() {
+        //given
+        TodoRepository mockTodoRepository = mock(TodoRepository.class);
+
+        TodoService todoService = new TodoService(mockTodoRepository);
+
+        Todo todo = new Todo(1, "abc", false);
+        Todo expected_todo = new Todo(1, "def", true);
+        when(mockTodoRepository.save(todo)).thenReturn(expected_todo);
+
+        //when
+        Todo createdTodo = todoService.addTodoItem(todo);
+
+        //then
+        assertEquals(expected_todo, createdTodo);
+    }
+
+
 
 
 
