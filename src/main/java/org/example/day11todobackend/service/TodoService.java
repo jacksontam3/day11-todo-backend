@@ -1,5 +1,6 @@
 package org.example.day11todobackend.service;
 
+import org.example.day11todobackend.exception.TodoItemNotFoundException;
 import org.example.day11todobackend.model.Todo;
 import org.example.day11todobackend.repository.TodoRepository;
 import org.springframework.stereotype.Service;
@@ -33,7 +34,8 @@ public class TodoService {
     }
 
     public Todo findById(Integer id) {
-        return todoRepository.findById(id).orElseThrow();
+        return todoRepository.findById(id)
+                .orElseThrow(TodoItemNotFoundException::new);
     }
 
 

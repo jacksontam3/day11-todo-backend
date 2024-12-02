@@ -78,9 +78,9 @@ public class TodoControllerTest {
         // Then
         client.perform(MockMvcRequestBuilders.get("/TodoItem/" + givenTodo.getId()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(givenTodo.getId()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.text").value(givenTodo.getText()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.done").value(givenTodo.isDone()));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.result.id").value(givenTodo.getId()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.result.text").value(givenTodo.getText()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.result.done").value(givenTodo.isDone()));
     }
 
     @Test
@@ -150,7 +150,8 @@ public class TodoControllerTest {
         // When
         // Then
         client.perform(MockMvcRequestBuilders.get("/TodoItem/" + notExistId))
-                .andExpect(MockMvcResultMatchers.status().isNotFound());
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("Todo item not found"));
     }
 
 }
