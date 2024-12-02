@@ -61,4 +61,18 @@ public class TodoControllerTest {
                 .usingRecursiveFieldByFieldElementComparator()
                 .isEqualTo(givenTodos);
     }
+
+    @Test
+    void should_return_todo_when_get_by_id() throws Exception {
+        // Given
+        final Todo givenTodo = todoRepository.findAll().get(0);
+
+        // When
+        // Then
+        client.perform(MockMvcRequestBuilders.get("/TodoItem/" + givenTodo.getId()))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(givenTodo.getId()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.text").value(givenTodo.getText()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.done").value(givenTodo.isDone()));
+    }
 }
