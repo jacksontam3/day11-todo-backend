@@ -1,9 +1,12 @@
 package org.example.day11todobackend.controller;
 
+import org.assertj.core.api.AssertionsForClassTypes;
+import org.example.day11todobackend.exception.TodoItemNotFoundException;
 import org.example.day11todobackend.model.Todo;
 import org.example.day11todobackend.repository.TodoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.json.JacksonTester;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,6 +33,10 @@ public class TodoControllerTest {
 
     @Autowired
     private JacksonTester<List<Todo>> todosResponseEntityJacksonTester;
+
+
+    @Autowired
+    private JacksonTester<Todo> todoJacksonTester;
 
     @BeforeEach
     void setUp() {
@@ -75,4 +82,22 @@ public class TodoControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.text").value(givenTodo.getText()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.done").value(givenTodo.isDone()));
     }
+
+    @Test
+    void should_create_todo_success() throws Exception {
+        // Given
+        String givenTodoJson = "{\"text\": \"PPP\", \"done\": false}";
+
+        // When
+        String contentAsString = client.perform(MockMvcRequestBuilders.post("/TodoItem")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(givenTodoJson)
+        ).andReturn().getResponse().getContentAsString();
+
+        // Then
+        Todo todo = todoJacksonTester.parseObject(contentAsString);
+        assertThat(todo.getText()).isEqualTo("PPP");
+        assertThat(todo.isDone()).isFalse();
+    }
+
 }
