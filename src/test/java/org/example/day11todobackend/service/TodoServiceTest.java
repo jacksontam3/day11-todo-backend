@@ -92,6 +92,20 @@ class TodoServiceTest {
         assertEquals(expected_todo, createdTodo);
     }
 
+    @Test
+    void should_delete_todo_when_given_delete_todo_id() {
+        //given
+        TodoRepository mockTodoRepository = mock(TodoRepository.class);
+        TodoService todoService = new TodoService(mockTodoRepository);
+        Todo todo = new Todo(1, "abc", false);
+        when(mockTodoRepository.findById(1)).thenReturn(Optional.of(todo));
+        //when
+        todoService.delete(1);
+        //then
+        verify(mockTodoRepository, times(1)).deleteById(1);
+
+    }
+
 
 
 
