@@ -1,0 +1,64 @@
+package org.example.day11todobackend.controller;
+
+import org.example.day11todobackend.model.Todo;
+import org.example.day11todobackend.repository.TodoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.json.JacksonTester;
+import org.springframework.test.web.servlet.MockMvc;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
+import java.util.List;
+
+import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
+
+@SpringBootTest
+@AutoConfigureMockMvc
+@AutoConfigureJsonTesters
+public class TodoControllerTest {
+
+    @Autowired
+    private MockMvc client;
+
+    @Autowired
+    private TodoRepository todoRepository;
+
+    @Autowired
+    private JacksonTester<List<Todo>> todosResponseEntityJacksonTester;
+
+    @BeforeEach
+    void setUp() {
+        givenDataToJpaRepository();
+    }
+
+    private void givenDataToJpaRepository() {
+        todoRepository.deleteAll();
+        todoRepository.save(new Todo(null, "abc", false));
+        todoRepository.save(new Todo(null, "def", true));
+        todoRepository.save(new Todo(null, "hij", false));
+        todoRepository.save(new Todo(null, "kln", true));
+        todoRepository.save(new Todo(null, "mop", false));
+    }
+
+    @Test
+    void should_return_todos_when_get_all_given_todo_exist() throws Exception {
+        //given
+        final List<Todo> givenTodos = todoRepository.findAll();
+
+        //when
+        //then
+        final String jsonResponse = client.perform(MockMvcRequestBuilders.get("/TodoItem"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn().getResponse().getContentAsString();
+
+        final List<Todo> todosResult = todosResponseEntityJacksonTester.parseObject(jsonResponse);
+        assertThat(todosResult)
+                .usingRecursiveFieldByFieldElementComparator()
+                .isEqualTo(givenTodos);
+    }
+}
