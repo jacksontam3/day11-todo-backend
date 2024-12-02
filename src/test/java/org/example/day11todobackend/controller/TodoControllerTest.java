@@ -154,4 +154,19 @@ public class TodoControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("Todo item not found"));
     }
 
+    @Test
+    void should_throw_todo_item_not_found_exception_when_update_given_todo_not_exist() throws Exception{
+        // Given
+        final Integer notExistId = 999;
+        String givenTodoString = "{\"id\": " + notExistId + ", \"text\": \"PPP\", \"done\": true}";
+
+        // When
+        // Then
+        client.perform(MockMvcRequestBuilders.put("/TodoItem/" + notExistId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(givenTodoString))
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("Todo item not found"));
+    }
+
 }

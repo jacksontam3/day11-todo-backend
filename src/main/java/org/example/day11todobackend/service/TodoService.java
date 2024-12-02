@@ -24,7 +24,7 @@ public class TodoService {
     }
 
     public Todo update(Integer id, Todo todo) {
-        final Todo todoNeedToUpdate = todoRepository.findById(id).orElseThrow();
+        final Todo todoNeedToUpdate = todoRepository.findById(id).orElseThrow(TodoItemNotFoundException::new);
         todoNeedToUpdate.update(todo);
         return todoRepository.save(todoNeedToUpdate);
     }

@@ -28,8 +28,8 @@ public class TodoController {
     }
 
     @PutMapping("/{id}")
-    public Todo updateTodoItem(@PathVariable Integer id, @RequestBody Todo todo) {
-        return todoService.update(id, todo);
+    public ResponseEntity<Todo> updateTodoItem(@PathVariable Integer id, @RequestBody Todo todo) {
+        return ResponseEntity.success(todoService.update(id, todo));
     }
 
     @DeleteMapping("/{id}")
