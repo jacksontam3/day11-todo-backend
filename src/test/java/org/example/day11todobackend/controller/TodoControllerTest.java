@@ -142,4 +142,15 @@ public class TodoControllerTest {
         assertThat(todoRepository.findById(givenTodo.getId())).isEmpty();
     }
 
+    @Test
+    void should_throw_todo_item_not_found_exception_when_get_by_id_given_todo_not_exist() throws Exception {
+        // Given
+        final Integer notExistId = 999;
+
+        // When
+        // Then
+        client.perform(MockMvcRequestBuilders.get("/TodoItem/" + notExistId))
+                .andExpect(MockMvcResultMatchers.status().isNotFound());
+    }
+
 }
