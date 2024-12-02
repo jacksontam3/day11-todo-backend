@@ -1,7 +1,7 @@
 package org.example.day11todobackend.controller;
 
+import org.assertj.core.api.Assertions;
 import org.assertj.core.api.AssertionsForClassTypes;
-import org.example.day11todobackend.exception.TodoItemNotFoundException;
 import org.example.day11todobackend.model.Todo;
 import org.example.day11todobackend.repository.TodoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,6 +98,32 @@ public class TodoControllerTest {
         Todo todo = todoJacksonTester.parseObject(contentAsString);
         assertThat(todo.getText()).isEqualTo("PPP");
         assertThat(todo.isDone()).isFalse();
+    }
+
+    @Test
+    void should_update_todo_success() throws Exception {
+        // Given
+        Todo givenTodo = new Todo();
+        givenTodo.setText("PPP");
+        givenTodo.setDone(false);
+        givenTodo = todoRepository.save(givenTodo);
+
+        String givenTodoString = "{\"id\": " + givenTodo.getId() + ", \"text\": \"PPP\", \"done\": true}";
+
+        // When
+        String contentAsString = client.perform(MockMvcRequestBuilders.put("/TodoItem/" + givenTodo.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(givenTodoString))
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        // Then
+        Todo updatedTodo = todoRepository.findById(givenTodo.getId()).orElseThrow();
+        Assertions.assertThat(updatedTodo.isDone()).isTrue();
+        AssertionsForClassTypes.assertThat(updatedTodo.getId()).isEqualTo(givenTodo.getId());
+        AssertionsForClassTypes.assertThat(updatedTodo.getText()).isEqualTo("PPP");
+
     }
 
 }
