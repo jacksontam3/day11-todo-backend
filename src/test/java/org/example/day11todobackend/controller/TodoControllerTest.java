@@ -126,4 +126,20 @@ public class TodoControllerTest {
 
     }
 
+    @Test
+    void should_remove_todo_success() throws Exception {
+        // Given
+        Todo givenTodo = new Todo();
+        givenTodo.setText("PPP");
+        givenTodo.setDone(false);
+        givenTodo = todoRepository.save(givenTodo);
+
+        // When
+        client.perform(MockMvcRequestBuilders.delete("/TodoItem/" + givenTodo.getId()))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+
+        // Then
+        assertThat(todoRepository.findById(givenTodo.getId())).isEmpty();
+    }
+
 }
