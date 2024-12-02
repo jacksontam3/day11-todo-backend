@@ -31,6 +31,11 @@ public class TodoController {
         return todoService.update(id, todo);
     }
 
+    @DeleteMapping("/{id}")
+    public void deleteTodoItem(@PathVariable Integer id) {
+        todoService.delete(id);
+    }
+
 
 
 }
