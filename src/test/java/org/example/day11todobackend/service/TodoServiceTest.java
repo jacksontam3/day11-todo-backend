@@ -46,6 +46,15 @@ class TodoServiceTest {
     }
 
     @Test
-    void findById() {
+    void should_return_the_given_todos_when_findById() {
+        //given
+        TodoRepository mockTodoRepository = mock(TodoRepository.class);
+        TodoService todoService = new TodoService(mockTodoRepository);
+        Todo expectedTodos = new Todo(1, "abc", false);
+                when(mockTodoRepository.findById(1)).thenReturn(Optional.of(expectedTodos));
+        //when
+        Todo actualTodos = todoService.findById(1);
+        //then
+        assertEquals(expectedTodos, actualTodos);
     }
 }
