@@ -18,13 +18,13 @@ public class TodoController {
     }
 
     @GetMapping
-    public List<Todo> getTodoList() {
-        return todoService.findAll();
+    public ResponseEntity<List<Todo>> getTodoList() {
+        return ResponseEntity.success(todoService.findAll());
     }
 
     @PostMapping
-    public Todo addTodoItem(@RequestBody Todo todo) {
-        return todoService.addTodoItem(todo);
+    public ResponseEntity<Todo> addTodoItem(@RequestBody Todo todo) {
+        return ResponseEntity.success(todoService.addTodoItem(todo));
     }
 
     @PutMapping("/{id}")
