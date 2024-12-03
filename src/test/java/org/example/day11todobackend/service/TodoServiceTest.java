@@ -5,14 +5,11 @@ import org.example.day11todobackend.repository.TodoRepository;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
-import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
 import static java.lang.Boolean.FALSE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 class TodoServiceTest {
 
@@ -31,18 +28,6 @@ class TodoServiceTest {
 
         // Then
         assertEquals(expectedTodos, actualTodos);
-    }
-
-    @Test
-    void addTodoItem() {
-    }
-
-    @Test
-    void update() {
-    }
-
-    @Test
-    void delete() {
     }
 
     @Test
